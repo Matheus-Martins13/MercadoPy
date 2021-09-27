@@ -13,6 +13,7 @@ def main() -> None:
 
 
 def menu() -> None:
+    print(100 * '\n')
     print('========================================')
     print('============= Bem Vindo(a) =============')
     print('============== Mart Shop ===============')
@@ -48,11 +49,12 @@ def menu() -> None:
 
 
 def cadastrar_produto() -> None:
+    print(100 * '\n')
     print('Cadastro de Produto')
     print('===================')
 
     nome: str = input('Informe o nome do produto: ')
-    preco: float = float(input('Informe o preço do produto: ' ))
+    preco: float = float(input('Informe o preço do produto: '))
 
     produto: Produto = Produto(nome, preco)
 
@@ -64,6 +66,7 @@ def cadastrar_produto() -> None:
 
 
 def listar_produto() -> None:
+    print(100 * '\n')
     if len(produtos) > 0:
         print('Listagem de produtos')
         print('====================')
@@ -74,11 +77,13 @@ def listar_produto() -> None:
             sleep(1)
     else:
         print('Ainda não existem produtos cadastrados.')
-    sleep(2)
+    input('Pressione qualquer tecla para voltar ao menu: \n>>')
+    sleep(1)
     menu()
 
 
 def comprar_produto() -> None:
+    print(100 * '\n')
     # Existem produtos cadastrados?
     if len(produtos) > 0:
         print('Informe o código do produto que deseja adicionar ao carrinho:')
@@ -143,6 +148,7 @@ def comprar_produto() -> None:
 
 
 def visualizar_carrinho() -> None:
+    print(100 * '\n')
     if len(carrinho) > 0:
         print('Produtos do carrinho: ')
 
@@ -160,6 +166,7 @@ def visualizar_carrinho() -> None:
 
 
 def fechar_pedido() -> None:
+    print(100 * '\n')
     if len(carrinho) > 0:
         valor_total: float = 0
 
