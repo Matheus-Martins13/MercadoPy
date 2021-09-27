@@ -52,7 +52,7 @@ def cadastrar_produto() -> None:
     print('===================')
 
     nome: str = input('Informe o nome do produto: ')
-    preco: float = float(input('Informe o preço do produto'))
+    preco: float = float(input('Informe o preço do produto: ' ))
 
     produto: Produto = Produto(nome, preco)
 
@@ -79,11 +79,84 @@ def listar_produto() -> None:
 
 
 def comprar_produto() -> None:
-    pass
+    # Existem produtos cadastrados?
+    if len(produtos) > 0:
+        print('Informe o código do produto que deseja adicionar ao carrinho:')
+        print('--------------------------------------------------------------')
+        print('==================== Produtos Disponíveis ====================')
+
+        for produto in produtos:
+            print(produto)
+            print('----------------------------------------------------------')
+            sleep(1)
+        codigo: int = int(input('>> '))
+
+        produto: Produto = pega_produto_por_codigo(codigo)
+        # No método pega_produto_por_codigo(), o retorno pode ser um produto ou um None, se o código consultado existir
+        # ou não. Se for um produto, o if vai validar como verdadeiro, e entrará nas validações do produto, mas se for
+        # None, será falso, então irá para o final, onde será informado que o produto não fora encontrado.
+
+        if produto:
+            # Existem produtos no carrinho?
+            if len(carrinho) > 0:
+                # Se sim, esse produto em específico já existe no carrinho?
+                tem_no_carrinho: bool = False
+
+                for item in carrinho:
+                    quant: int = item.get(produto)
+
+                    # Se existe, adicione uma quantidade a esse produto
+                    if quant:
+                        item[produto] = quant + 1
+                        print(f'O produto {produto.nome} agora possui {quant + 1} unidades no carrinho.')
+                        tem_no_carrinho = True
+                        sleep(2)
+                        menu()
+
+                # Houve a verificação e o tem_no_carrinho manteve-se em False, então esse produto ainda não existe no
+                # carrinho.
+                if not tem_no_carrinho:
+                    prod = {produto: 1}
+                    carrinho.append(prod)
+                    print(f'O produto {produto.nome} foi adicionado ao carrinho.')
+                    sleep(2)
+                    menu()
+
+            # Não há produtos cadastrados no carrinho, então estamos cadastrando este produto
+            else:
+                item = {produto: 1}
+                carrinho.append(item)
+                print(f'O produto {produto.nome} foi adicionado ao carrinho.')
+                sleep(2)
+                menu()
+        # O produto consultado não existe.
+        else:
+            print(f'O produto com códgo {codigo} não foi encontrado.')
+            sleep(2)
+            menu()
+
+    # Não existem produtos cadastrados
+    else:
+        print('Ainda não existem produtos para vender.')
+    sleep(2)
+    menu()
 
 
 def visualizar_carrinho() -> None:
-    pass
+    if len(carrinho) > 0:
+        print('Produtos do carrinho: ')
+
+        for item in carrinho:
+            for dados in item.items():
+                print(dados[0])
+                print(f'Quantidade: {dados[1]}')
+                print('-----------------------')
+                sleep(1)
+
+    else:
+        print('Ainda não existem produtos no carrinho.')
+    sleep(2)
+    menu()
 
 
 def fechar_pedido() -> None:
@@ -114,7 +187,7 @@ def pega_produto_por_codigo(codigo: int) -> Produto:
     for produto in produtos:
         if produto.codigo == codigo:
             p = produto
-    return p 
+    return p
 
 
 if __name__ == '__main__':
